@@ -13,6 +13,9 @@ console.log(dataBasePath)
 
 const db = pgp({
   connectionString: dataBasePath,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 module.exports = db;

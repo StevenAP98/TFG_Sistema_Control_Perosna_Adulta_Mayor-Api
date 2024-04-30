@@ -230,16 +230,17 @@ async function agregarMedicamento(Medicamentos) {
         "descripcion",
         "stockDisponible",
         miligramos,
-        fechaVencimiento
+        "fechaVencimiento"
         
         )
       VALUES (
         '${Medicamentos.nombreMedicamento}',
         '${Medicamentos.descripcion}',
-        '${Medicamentos.stockDisponible},
+        ${Medicamentos.stockDisponible},
         '${Medicamentos.miligramos}',
-        '${Medicamentos.fechaVencimiento}'');  
+        '${Medicamentos.fechaVencimiento}');  
     `
+    console.log(InsertMedicamento)
     await db.query(InsertMedicamento);
     
     var idMedicamento= await db.query(`SELECT MAX(M."idMedicamento") AS "idMedicamento" FROM "Schema-datos"."Medicamentos" M`);

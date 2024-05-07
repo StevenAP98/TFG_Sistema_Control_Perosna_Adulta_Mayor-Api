@@ -19,7 +19,8 @@ async function obtenerCitasXIdResidente(idResidente) {
       "doctorAsignado",
       "centroMedico",
       "notasConsultaMedica",
-      TO_CHAR("fechaCita", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS fechaCita
+      TO_CHAR("fechaCita", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS fechaCita,
+      "nombreAdjuntos"
     FROM
       "Schema-datos"."Citas"  
     WHERE 
@@ -53,7 +54,8 @@ async function obtenerCita(idCita) {
       "doctorAsignado",
       "centroMedico",
       "notasConsultaMedica",
-      TO_CHAR("fechaCita", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS fechaCita
+      TO_CHAR("fechaCita", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS fechaCita,
+      "nombreAdjuntos"
     FROM
       "Schema-datos"."Citas"  
     WHERE 
@@ -87,7 +89,8 @@ async function agregarCita(citas) {
       "rutaAdjunto",
       "doctorAsignado",
       "centroMedico",
-      "notasConsultaMedica"
+      "notasConsultaMedica",
+      "nombreAdjuntos"
       )
     VALUES (
       '${citas.titulo}',
@@ -99,7 +102,8 @@ async function agregarCita(citas) {
       '${citas.rutaAdjunto}',
       '${citas.doctorAsignado}',
       '${citas.centroMedico}',
-      '${citas.notasConsultaMedica}');  
+      '${citas.notasConsultaMedica}',
+      '${citas.nombreAdjuntos}');  
   `)
     
   var idCita=await db.query(`SELECT MAX(C."idCita") AS "idCita"  FROM "Schema-datos"."Citas" C`);
@@ -133,7 +137,8 @@ function actualizarCita(citas) {
       "rutaAdjunto"='${citas.rutaAdjunto}', 
       "doctorAsignado"='${citas.doctorAsignado}', 
       "centroMedico"='${citas.centroMedico}', 
-      "notasConsultaMedica"='${citas.notasConsultaMedica}'
+      "notasConsultaMedica"='${citas.notasConsultaMedica}',
+      "nombreAdjuntos"='${citas.nombreAdjuntos}'
       
     WHERE 
       "idCita"=${citas.idCita};

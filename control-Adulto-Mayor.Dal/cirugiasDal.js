@@ -48,7 +48,8 @@ async function obtenerCirugia(idCirugia) {
       "idResidente",
       TO_CHAR("fechaCirugia", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fechaCirugia",
       estado,
-      "rutaAdjuntos"
+      "rutaAdjuntos",
+      "nombreAdjuntos"
     FROM 
       "Schema-datos"."Cirugias"
     WHERE 
@@ -66,7 +67,6 @@ async function obtenerCirugia(idCirugia) {
 
 function agregarCirugia(cirugias) { 
   var resultado = new Respuesta ();
-
   try {
     db.query(`
     
@@ -79,7 +79,9 @@ function agregarCirugia(cirugias) {
       "idResidente",
       "fechaCirugia",
       "estado",
-      "rutaAdjuntos"
+      "rutaAdjuntos",
+      "nombreAdjuntos"
+
       )
     VALUES (
       '${cirugias.nombreCirugia}',
@@ -89,7 +91,8 @@ function agregarCirugia(cirugias) {
       '${cirugias.idResidente}',
       '${cirugias.fechaCirugia}',
       '${cirugias.estado}',
-      '${cirugias.rutaAdjuntos}');  
+      '${cirugias.rutaAdjuntos}',
+      '${cirugias.nombreAdjuntos}');  
   `)
     
     resultado.HayError = false;
@@ -118,7 +121,8 @@ function actualizarCirugia(cirugias) {
       "tipoCirugia"='${cirugias.tipoCirugia}', 
       "fechaCirugia"='${cirugias.fechaCirugia}', 
       "estado"='${cirugias.estado}', 
-      "rutaAdjuntos"='${cirugias.rutaAdjuntos}'
+      "rutaAdjuntos"='${cirugias.rutaAdjuntos}',
+      "nombreAdjuntos"='${cirugias.nombreAdjuntos}'
       
     WHERE 
       "idCirugia"=${cirugias.idCirugia};

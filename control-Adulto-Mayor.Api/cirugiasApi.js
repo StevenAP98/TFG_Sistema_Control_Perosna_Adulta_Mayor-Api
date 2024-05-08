@@ -38,13 +38,10 @@ async function obtenerCirugia(req, res) {
 
 async function agregarCirugia(req, res) {
   try {   
-    console.log(req.body.jsonData)
-    console.log(req.body)
-
     const cirugia = JSON.parse(req.body.jsonData);
     console.log(cirugia)
     respuesta = await CirugiaBL.agregarCirugia(cirugia);
-
+    
     res.json(respuesta);
   } catch (error) {
     res.status(500).json({ error: error.message });

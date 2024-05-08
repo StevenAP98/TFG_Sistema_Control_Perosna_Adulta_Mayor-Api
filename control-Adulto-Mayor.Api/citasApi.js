@@ -52,6 +52,8 @@ async function agregarCita(req, res) {
     const cita = JSON.parse(req.body.jsonData);
     respuesta = await CitaBL.agregarCita(cita);
 
+    res.json(respuesta);
+
   } catch (error) {
     console.error('Error al procesar la solicitud:', error);
     res.status(500).send('Error al agregar cita y guardar el archivo');

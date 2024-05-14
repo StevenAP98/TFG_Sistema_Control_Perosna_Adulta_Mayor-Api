@@ -156,7 +156,7 @@ function enviarCorreoContrasena(correoDestinatario, contrasenaTemporal){
     const credentials = {
         client_id: '430146061674-h8tp4cep11cdvbqu30clrmggu5c4o1ho.apps.googleusercontent.com',
         client_secret: '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',
-        refresh_token: '1//043hFYhjwXglnCgYIARAAGAQSNwF-L9Irsu-Bw13e6xWKERrdQw49jnWdAFP14L9HDEG0zks0spCUVWaJZ0zncYuQ63Ca18wXcKI'
+        refresh_token: '1//04RGDiyOrdGzLCgYIARAAGAQSNwF-L9IrSfTNSZGpayGsVGqz2PBPiAQmB23BcsfyFSXc_dxHKAFhFHF27y95B0ADordGD-6FJik'
     };
     
     // Configurar el transporter de nodemailer con OAuth 2.0
@@ -201,7 +201,7 @@ function enviarCorreoContrasena(correoDestinatario, contrasenaTemporal){
         html: text, // Utiliza el HTML en lugar del texto plano
         attachments: [{
             filename: 'logo-hogar-footer.png',
-            path: '.././control-Adulto-Mayor.UI/public/img/logo-hogar-footer.png',
+            path: '../control-Adulto-Mayor.BL/img/logo-hogar-footer.png',
             cid: 'logo'
         }]
     };

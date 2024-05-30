@@ -11,9 +11,9 @@ const nombresMeses = [
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
 ];
 
-cron.schedule('*/5 * * * * *', recordatorioCita, { // ejecuta cada 30 segundos
+//cron.schedule('*/5 * * * * *', recordatorioCita, { // ejecuta cada 30 segundos
 //ejecuta cada dia a las 9 de la mañana
-//cron.schedule('0 9 * * *', recordatorioCita, {
+cron.schedule('0 9 * * *', recordatorioCita, {
   scheduled: true,
   timezone: "America/Costa_Rica" // Puedes cambiar esto a tu zona horaria
 });

@@ -39,7 +39,6 @@ async function obtenerCirugia(req, res) {
 async function agregarCirugia(req, res) {
   try {   
     const cirugia = JSON.parse(req.body.jsonData);
-    console.log(cirugia)
     respuesta = await CirugiaBL.agregarCirugia(cirugia);
     
     res.json(respuesta);

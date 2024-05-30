@@ -85,27 +85,6 @@ function agregarResidente(residente) {
 function actualizarResidente(residente) {
   var resultado = new Respuesta ();
 
-  console.log(`
-  UPDATE "Schema-datos"."Residentes"
-  SET   
-    nombre='${residente.nombre}', 
-    apellidos='${residente.apellidos}', 
-    edad=${residente.edad},
-    "fechaNacimiento"='${residente.fechaNacimiento}',
-    "telefonoFamiliar"='${residente.telefonoFamiliar}',
-    "nombreFamiliarCercano"='${residente.nombreFamiliarCercano}',
-    "parentezcoFamiliar"='${residente.parentezcoFamiliar}',
-    "direccionFamiliar"='${residente.direccionFamiliar}',
-    "estadoCivil"='${residente.estadoCivil}',
-    "parentezcoFamiliar"='${residente.parentezcoFamiliar}',
-    "fechaIngreso"='${residente.fechaIngreso}',
-    genero='${residente.genero}',
-    habitacion='${residente.habitacion}',
-    "idEncargado"=${residente.idEncargado}
-    
-  WHERE 
-    "idResidente"=${residente.idResidente};
-`)
   try {   
 
     db.query(`

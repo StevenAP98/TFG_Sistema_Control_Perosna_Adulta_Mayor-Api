@@ -4,8 +4,11 @@ const usuarioBL = require('../control-Adulto-Mayor.BL/usuarioBL');
 
 const  hat = require('hat');
 const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const credentials = require('../credentialsGmail.json')
+const nodemailer = require("nodemailer");
+
+
 
 
 async function iniciarSesion(datosAuthValidar){
@@ -151,14 +154,7 @@ function generarContrasennaTemporal() {
   }
 
 function enviarCorreoContrasena(correoDestinatario, contrasenaTemporal){
-    const nodemailer = require("nodemailer");
-    
-    const credentials = {
-        client_id: '430146061674-h8tp4cep11cdvbqu30clrmggu5c4o1ho.apps.googleusercontent.com',
-        client_secret: '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',
-        refresh_token: '1//04RGDiyOrdGzLCgYIARAAGAQSNwF-L9IrSfTNSZGpayGsVGqz2PBPiAQmB23BcsfyFSXc_dxHKAFhFHF27y95B0ADordGD-6FJik'
-    };
-    
+        
     // Configurar el transporter de nodemailer con OAuth 2.0
     const transporter = nodemailer.createTransport({
         service: 'gmail',

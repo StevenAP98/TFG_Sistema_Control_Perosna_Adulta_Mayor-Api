@@ -33,7 +33,6 @@ async function encriptarContrasena(contrasena) {
   try {
     const saltRounds = 10; // Número de rondas de hashing 
     const hash = await bcrypt.hash(contrasena, saltRounds);
-    console.log(hash)
     return hash;
   } catch (error) {
     throw error;

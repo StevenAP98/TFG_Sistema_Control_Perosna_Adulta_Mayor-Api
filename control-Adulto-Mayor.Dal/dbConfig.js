@@ -8,9 +8,6 @@ const dataBasePath = process.env.DATABASE_URL;
 // dbConfig.js
 const pgp = require('pg-promise')();
 
-console.log(envPath)
-console.log(dataBasePath)
-
 const db = pgp({
   connectionString: dataBasePath,
   ssl: {

@@ -32,6 +32,29 @@ async function obtenerCirugiasXIdResidente(idResidente) {
   return resultado
   
 }
+async function obtenerDatosRecordatorio(idCita) {
+  var resultado = new Respuesta ();
+
+  try {   
+    
+    var citas = await db.query(`
+      select CI."fechaCirugia", CI."nombreCirugia", (R.nombre || ' ' || R.apellidos) as nombreResidente, (U.nombre || ' ' || U.apellidos) AS nombreEncargado, U."correoElectronico", CI.estado
+      from "Schema-datos"."Cirugias" CI
+      inner join "Schema-datos"."Residentes" R
+      on R."idResidente" = CI."idResidente" 
+      inner join "Schema-datos"."Usuarios" U
+      on U."idUsuario"= R."idEncargado"
+      
+    `)
+
+  } catch (error) {
+    console.log(error)
+
+  }
+  return citas
+  
+}
+
 
 async function obtenerCirugia(idCirugia) {
   var resultado = new Respuesta ();
@@ -165,7 +188,8 @@ module.exports = {
   obtenerCirugia,
   agregarCirugia,
   actualizarCirugia,
-  eliminarCirugia
+  eliminarCirugia,
+  obtenerDatosRecordatorio
 };
 
  

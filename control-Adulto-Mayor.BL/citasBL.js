@@ -13,12 +13,11 @@ const nombresMeses = [
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
 ];
 
-//cron.schedule('*/30 * * * * *', recordatorioCita, { // ejecuta cada 30 segundos
-
+//cron.schedule('*/5 * * * * *', recordatorioCita, { // ejecuta cada 30 segundos
 //ejecuta cada dia a las 9 de la mañana
   cron.schedule('0 9 * * *', recordatorioCita, {
     scheduled: true,
-    timezone: "America/Los_Angeles" // Puedes cambiar esto a tu zona horaria
+    timezone: "America/Costa_Rica" // Puedes cambiar esto a tu zona horaria
 });
 
 
@@ -64,8 +63,8 @@ async function enviarCorreoRecordatorio(datoEnviar){
         <title>Recordatorio Cita</title>
     </head>
     <body style="font-family: Arial, sans-serif; font-size: 14px;">
-        <h5>Hola</h5>
-        <p>
+    <h5>Hola ${datoEnviar.nombreencargado}</h5>
+    <p>
           Le recordamos que el residente ${datoEnviar.nombreresidente}, tiene la cita "${datoEnviar.titulo}" el día ${dia} del mes de ${mes} del año ${anno}, favor estar pendiente de la fecha
         </p>
         <p>Gracias,</p>

@@ -13,7 +13,7 @@ const nombresMeses = [
 
 //cron.schedule('*/5 * * * * *', recordatorioCita, { // ejecuta cada 30 segundos
 //ejecuta cada dia a las 9 de la mañana
-cron.schedule('0 9 * * *', recordatorioCita, {
+ cron.schedule('0 9 * * *', recordatorioCita, {
   scheduled: true,
   timezone: "America/Costa_Rica" // Puedes cambiar esto a tu zona horaria
 });
@@ -22,17 +22,17 @@ cron.schedule('0 9 * * *', recordatorioCita, {
 // Manten el proceso en ejecución
 process.stdin.resume();
 async function recordatorioCita() {
-var datosEnviar = await CirugiaDal.obtenerDatosRecordatorio()
-for(var dato of datosEnviar){
-  var fechaVencimiento = new Date(dato.fechaCirugia);
-  var fechaActual = new Date();
-  
-  var diferenciaDias = Math.ceil((fechaVencimiento - fechaActual) / (1000 * 60 * 60 * 24));
-  if (diferenciaDias <=7 && dato.estado=="En espera") {
-    await enviarCorreoRecordatorio(dato)
+  var datosEnviar = await CirugiaDal.obtenerDatosRecordatorio()
+  for(var dato of datosEnviar){
+    var fechaVencimiento = new Date(dato.fechaCirugia);
+    var fechaActual = new Date();
+    
+    var diferenciaDias = Math.ceil((fechaVencimiento - fechaActual) / (1000 * 60 * 60 * 24));
+    if (diferenciaDias <=7 && dato.estado=="En espera") {
+      await enviarCorreoRecordatorio(dato)
 
+    }
   }
-}
 }
 
 async function enviarCorreoRecordatorio(datoEnviar){
@@ -50,6 +50,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+const hora = new Date(datoEnviar.fechaCirugia).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 const dia = new Date(datoEnviar.fechaCirugia).getDate();
 const mes = nombresMeses[new Date(datoEnviar.fechaCirugia).getMonth()]; 
 const anno = new Date(datoEnviar.fechaCirugia).getFullYear();
@@ -63,7 +64,7 @@ const text = `
   <body style="font-family: Arial, sans-serif; font-size: 14px;">
       <h5>Hola ${datoEnviar.nombreencargado}</h5>
       <p>
-        Le recordamos que el residente ${datoEnviar.nombreresidente}, tiene la siguiente cirugía "${datoEnviar.nombreCirugia}" el día ${dia} del mes de ${mes} del año ${anno}, favor estar pendiente de la fecha
+        Le recordamos que el residente ${datoEnviar.nombreresidente}, tiene la siguiente cirugía "${datoEnviar.nombreCirugia}" el día ${dia} del mes de ${mes} del año ${anno} a las ${hora}, favor estar pendiente de la fecha
       </p>
       <p>Gracias,</p>
       <img src="cid:logo" alt="Logo">

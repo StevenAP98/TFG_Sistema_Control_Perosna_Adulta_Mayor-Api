@@ -52,6 +52,7 @@ async function enviarCorreoRecordatorio(datoEnviar){
       }
   });
 
+  const hora = new Date(datoEnviar.fechaCita).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   const dia = new Date(datoEnviar.fechaCita).getDate();
   const mes = nombresMeses[new Date(datoEnviar.fechaCita).getMonth()]; 
   const anno = new Date(datoEnviar.fechaCita).getFullYear();
@@ -65,7 +66,7 @@ async function enviarCorreoRecordatorio(datoEnviar){
     <body style="font-family: Arial, sans-serif; font-size: 14px;">
     <h5>Hola ${datoEnviar.nombreencargado}</h5>
     <p>
-          Le recordamos que el residente ${datoEnviar.nombreresidente}, tiene la cita "${datoEnviar.titulo}" el día ${dia} del mes de ${mes} del año ${anno}, favor estar pendiente de la fecha
+          Le recordamos que el residente ${datoEnviar.nombreresidente}, tiene la siguiente cita: "${datoEnviar.titulo}" el día ${dia} del mes de ${mes} del año ${anno} a las ${hora} en el centro de salud ${datoEnviar.centroMedico}, favor estar pendiente de la fecha
         </p>
         <p>Gracias,</p>
         <img src="cid:logo" alt="Logo">

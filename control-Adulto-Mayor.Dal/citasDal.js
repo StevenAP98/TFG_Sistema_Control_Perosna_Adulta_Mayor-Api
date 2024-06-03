@@ -73,13 +73,13 @@ async function obtenerCita(idCita) {
   
 }
 
-async function obtenerDatosRecordatorio(idCita) {
+async function obtenerDatosRecordatorio() {
   var resultado = new Respuesta ();
 
   try {   
     
     var citas = await db.query(`
-      select CI."fechaCita", CI."titulo", (R.nombre || ' ' || R.apellidos) as nombreResidente, (U.nombre || ' ' || U.apellidos) AS nombreEncargado, U."correoElectronico", CI.estado
+      select CI."fechaCita", CI."titulo", (R.nombre || ' ' || R.apellidos) as nombreResidente, (U.nombre || ' ' || U.apellidos) AS nombreEncargado, U."correoElectronico", CI.estado, CI."centroMedico"
       from "Schema-datos"."Citas" CI
       inner join "Schema-datos"."Residentes" R
       on R."idResidente" = CI."idResidente" 

@@ -5,14 +5,6 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
-// Habilita CORS para todas las rutas
-// app.use(cors());
-
-app.use(cors({
-  origin: 'http://localhost:4000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  //credentials: true,
-}));
 const CitaBL = require('../control-Adulto-Mayor.BL/citasBL');
 
 async function obtenerCitasXIdResidente(req, res) {

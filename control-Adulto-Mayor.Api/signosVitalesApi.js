@@ -3,14 +3,6 @@ const app = express();
 const cors = require('cors');
 const os = require('os');
 
-// Habilita CORS para todas las rutas
-// app.use(cors());
-
-app.use(cors({
-  origin: 'http://localhost:4000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  //credentials: true,
-}));
 const SignosVitalesBL = require('../control-Adulto-Mayor.BL/signosVitalesBL');
 
 async function obtenerSignosVitalesXIdResidente(req, res) {

@@ -1,6 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
+require(`dotenv`);
 
 const usuarioControllers = require('./usuarioApi.js');
 const residenteControllers = require('./residentesApi.js');
@@ -27,14 +28,6 @@ const upload = multer({
     fieldSize: 25 * 1024 * 1024
   }
 });
-
-// // Habilita CORS para todas las rutas
-// app.use(cors());
-app.use(cors({
-    origin: 'http://localhost:4000',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  }));
 
 //Usuarios
 router.get('/usuarios/obtenerUsuarios', usuarioControllers.obtenerUsuarios);

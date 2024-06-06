@@ -2,8 +2,25 @@ const express = require('express');
 const app = express();
 const apiRoutes = require('./apiRoutes.js');
 
-var cors = require('cors')
-app.use(cors({origin:"*"})) // Use this after the variable declaration
+var cors = require('cors');
+require(`dotenv`);
+
+const frontURL = process.env.API_URL;
+
+const allowedOrigins = ['http://localhost:4000', frontURL];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
+
 
 // app.use(function(req, res, next){
 //   const apiKey=req.get("x-api-key");

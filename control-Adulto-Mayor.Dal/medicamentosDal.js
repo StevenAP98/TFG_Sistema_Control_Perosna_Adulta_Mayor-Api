@@ -58,7 +58,7 @@ async function obtenerMedicamentosXResidente(idMedicamento) {
 
     var medicamentosXResidente = await db.query(
     `
-    SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", M."stockDisponible", R."idResidente", M.clasificacion FROM  "Schema-datos"."Medicamentos" M
+    SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", M."stockDisponible", R."idResidente", M.clasificacion, X."stockConsumido" FROM  "Schema-datos"."Medicamentos" M
     INNER JOIN "Schema-datos"."MedicamentosXResidente" X
     ON X."idMedicamento" = M."idMedicamento"
     INNER JOIN "Schema-datos"."Residentes" R

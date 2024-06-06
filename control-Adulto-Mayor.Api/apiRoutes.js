@@ -98,12 +98,16 @@ router.get('/medicamentos/obtenerMedicamentosXIdResidente/:idResidente', medicam
 router.get('/medicamentos/obtenerMedicamentosXResidente/:idMedicamento', medicamentoControllers.obtenerMedicamentosXResidente);
 router.get('/medicamentos/obtenerMedicamento/:idMedicamento', medicamentoControllers.obtenerMedicamento);
 router.get('/medicamentos/obtenerMedicamentos', medicamentoControllers.obtenerMedicamentos);
+router.post('/medicamentos/obtenerDosisDiaria',jsonParser, medicamentoControllers.obtenerDosisDiaria);
 router.post('/medicamentos/agregarMedicamento', jsonParser, medicamentoControllers.agregarMedicamento);
 router.post('/medicamentos/agregarMedicamentosXResidente', jsonParser, medicamentoControllers.agregarMedicamentosXResidente);
+router.post('/medicamentos/agregarDosisDiaria', jsonParser, medicamentoControllers.agregarDosisDiaria);
 router.put('/medicamentos/actualizarMedicamentosXResidente', jsonParser, medicamentoControllers.actualizarMedicamentosXResidente);
 router.put('/medicamentos/actualizarMedicamento', jsonParser, medicamentoControllers.actualizarMedicamento);
+router.put('/medicamentos/actualizarDosisDiaria', jsonParser, medicamentoControllers.actualizarDosisDiaria);
 router.delete('/medicamentos/eliminarMedicamentosXResidente/:idMedicamentoXResidente', medicamentoControllers.eliminarMedicamentosXResidente);
 router.delete('/medicamentos/eliminarMedicamento/:idMedicamento', medicamentoControllers.eliminarMedicamento);
+router.delete('/medicamentos/eliminarDosisDiaria/:idDosisDiaria', medicamentoControllers.eliminarDosisDiaria);
 
 //Permisos
 router.get('/permisos/obtenerPermisosXIdUsuario/:idUsuario', permisosController.obtenerPermisosXIdUsuario);

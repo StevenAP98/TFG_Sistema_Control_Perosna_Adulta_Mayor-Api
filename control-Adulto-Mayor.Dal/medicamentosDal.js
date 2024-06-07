@@ -171,7 +171,6 @@ function actualizarMedicamentosXResidente(medicamentoXResidente) {
 function actualizarStockConsumido(stockConsumido, idMedicamentoXResidente, stockOcupado) {
   var resultado = new Respuesta ();
 
-  console.log(stockConsumido)
   try {   
 
     db.query(`
@@ -362,7 +361,6 @@ async function obtenerDosisDiaria(dosisDiaria) {
     idFiltro="idDosisDiaria"
 
   }
-  console.log(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = '${dosisDiaria.id}'`)
   try {     
     var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = '${dosisDiaria.id}'`)
     resultado.ObjetoRespuesta =Medicamentos;
@@ -386,18 +384,15 @@ async function agregarDosisDiaria(dosisDiaria) {
       INSERT INTO "Schema-datos"."DosisDiaria"(
         "fecha",
         "aplicador",
-        "clasificacion",
         "idMedicamentoXResidente",
         "cantidad"        
         )
       VALUES (
         '${dosisDiaria.fecha}',
         '${dosisDiaria.aplicador}',
-        '${dosisDiaria.clasificacion}',
         ${dosisDiaria.idMedicamentoXRecidente},
         ${dosisDiaria.cantidad});  
     `
-    console.log(InsertMedicamento)
     await db.query(InsertMedicamento);
 
     resultado.HayError = false;
@@ -422,7 +417,6 @@ function actualizarDosisDiaria(dosisDiaria) {
     SET   
       "fecha"='${dosisDiaria.fecha}', 
       "aplicador"='${dosisDiaria.aplicador}', 
-      "clasificacion"='${dosisDiaria.clasificacion}',
       "cantidad"=${dosisDiaria.cantidad}
     WHERE 
       "idDosisDiaria"=${dosisDiaria.idDosisDiaria};
@@ -443,13 +437,6 @@ function actualizarDosisDiaria(dosisDiaria) {
 function eliminarDosisDiaria(idDosisDiaria) {
   var resultado = new Respuesta ();
 
-  console.log(
-    `
-    DELETE FROM "Schema-datos"."DosisDiaria"
-    WHERE "idDosisDiaria"=${idDosisDiaria};
-
-    `
-  )
   try {   
 
     db.query(`

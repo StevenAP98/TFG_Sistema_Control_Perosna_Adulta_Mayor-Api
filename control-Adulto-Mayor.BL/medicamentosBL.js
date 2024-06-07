@@ -78,10 +78,6 @@ async function eliminarDosisDiaria(idDosisDiaria){
 
 
 async function descontarStock(tipo, dosisDiaria){
-  console.log("primerConsole")
-  console.log(tipo)
-  console.log(dosisDiaria)
-
   var medicamentoXRecidente = await MedicamentoDal.obtenerMedicamentosXResidenteXId(dosisDiaria.idMedicamentoXRecidente==undefined?dosisDiaria.idMedicamentoXResidente:dosisDiaria.idMedicamentoXRecidente);
   var anteriorStockConsumido =  medicamentoXRecidente[0].stockConsumido;
 

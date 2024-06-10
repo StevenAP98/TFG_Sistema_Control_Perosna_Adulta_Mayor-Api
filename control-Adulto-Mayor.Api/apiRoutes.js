@@ -12,6 +12,7 @@ const signosVitalesControllers= require('./signosVitalesApi.js');
 const autenticacionControllers = require('./autenticacionApi.js');
 const medicamentoControllers= require('./medicamentosApi.js');
 const permisosController= require('./permisosApi.js');
+const fisioterapiaController= require('./fisioterapiaApi.js');
 const multer = require('multer');
 
 const bodyParser = require('body-parser');
@@ -109,6 +110,13 @@ router.delete('/medicamentos/eliminarMedicamentosXResidente/:idMedicamentoXResid
 router.delete('/medicamentos/eliminarMedicamento/:idMedicamento', medicamentoControllers.eliminarMedicamento);
 router.delete('/medicamentos/eliminarDosisDiaria/:idDosisDiaria', medicamentoControllers.eliminarDosisDiaria);
 
+//Fisioterapia
+router.get('/fisioterapia/obtenerFisioterapiaXIdRecidente/:idResidente', fisioterapiaController.obtenerFisioterapiaXIdRecidente);
+router.get('/fisioterapia/obtenerFisioterapia/:idFisioterapia', fisioterapiaController.obtenerFisioterapia);
+router.post('/fisioterapia/agregarFisioterapia', jsonParser, fisioterapiaController.agregarFisioterapia);
+router.put('/fisioterapia/actualizarFisioterapia', jsonParser, fisioterapiaController.actualizarFisioterapia);
+router.delete('/fisioterapia/eliminarFisioterapia/:idFisioterapia', fisioterapiaController.eliminarFisioterapia);
+
 //Permisos
 router.get('/permisos/obtenerPermisosXIdUsuario/:idUsuario', permisosController.obtenerPermisosXIdUsuario);
 router.get('/permisos/obtenerPermisosXIdRol/:idRol', permisosController.obtenerPermisosXIdRol);
@@ -121,7 +129,6 @@ router.get('/roles/obtenerRol/:idRol', permisosController.obtenerRol);
 router.post('/roles/insertarRoles',jsonParser, permisosController.insertarRoles);
 router.put('/roles/actualizarRol', jsonParser, permisosController.actualizarRol);
 router.delete('/roles/eliminarRol/:idRol', permisosController.eliminarRol);
-
 router.get('/ventanas/obtenerVentanas', permisosController.obtenerVentanas);
 
 

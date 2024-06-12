@@ -21,6 +21,17 @@ app.use(cors({
   credentials: true, 
 }));
 
+app.use((req, res, next) => {
+  const referer = req.headers.referer || req.headers.origin;
+  const origin = referer ? referer.split('/').slice(0, 3).join('/') : '';
+  
+  if (allowedOrigins.includes(origin)) {
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+});
+
 
 // app.use(function(req, res, next){
 //   const apiKey=req.get("x-api-key");

@@ -1,5 +1,6 @@
 const Respuesta = require('../control-Adulto-Mayor.Entities/respuesta')
 const db = require('./dbConfig');
+const { insertarPermisos } = require('./permisosDal');
 
 
 async function obtenerMedicamentos() {
@@ -37,6 +38,17 @@ async function obtenerMedicamentos() {
   
 }
 
+async function obtenerMedicamentosXResidenteXId(id){
+  try {   
+    var data = await db.query(`SELECT * FROM "Schema-datos"."MedicamentosXResidente" WHERE "idMedicamentoXResidente" = '${id}'`)
+    return data;
+
+  } catch (error) {
+    console.log(error)
+  }
+
+  
+}
 
 async function obtenerMedicamentosXResidente(idMedicamento) {
   var resultado = new Respuesta ();
@@ -46,7 +58,7 @@ async function obtenerMedicamentosXResidente(idMedicamento) {
 
     var medicamentosXResidente = await db.query(
     `
-    SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", M."stockDisponible", R."idResidente", X.tipo FROM  "Schema-datos"."Medicamentos" M
+    SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", M."stockDisponible", R."idResidente", M.clasificacion, X."stockConsumido" FROM  "Schema-datos"."Medicamentos" M
     INNER JOIN "Schema-datos"."MedicamentosXResidente" X
     ON X."idMedicamento" = M."idMedicamento"
     INNER JOIN "Schema-datos"."Residentes" R
@@ -103,13 +115,15 @@ async function agregarMedicamentosXResidente(medicamentoXResidente) {
         "idResidente",
         "idMedicamento",
         "stokOcupado",
-        "tipo"
+        "tipo",
+        "stockConsumido"
         )
       VALUES (
         '${medicamentoXResidente.idResidente}',
         '${medicamentoXResidente.idMedicamento}',
         '${medicamentoXResidente.stokOcupado}',
-        '${medicamentoXResidente.tipo}');  
+        '${medicamentoXResidente.tipo}',
+        '0');  
     `
   await db.query(InsertMedicamentoXResidente);
 
@@ -153,6 +167,33 @@ function actualizarMedicamentosXResidente(medicamentoXResidente) {
 
   return resultado
 }
+
+function actualizarStockConsumido(stockConsumido, idMedicamentoXResidente, stockOcupado) {
+  var resultado = new Respuesta ();
+
+  try {   
+
+    db.query(`
+    UPDATE "Schema-datos"."MedicamentosXResidente"
+    SET   
+      "stockConsumido"='${stockConsumido}',
+      "stokOcupado"='${stockOcupado}'
+
+    WHERE
+      "idMedicamentoXResidente"=${idMedicamentoXResidente};
+  `)
+
+    resultado.HayError = false;
+    resultado.Mensaje="Medicamento actualizado exitosamente"    
+
+  } catch (error) {
+    resultado.HayError=true
+    resultado.mensaje=error.message
+  }
+
+  return resultado
+}
+
 function eliminarMedicamentosXResidente(idMedicamentoXResidente) {
   var resultado = new Respuesta ();
 
@@ -183,7 +224,7 @@ async function obtenerMedicamentosXIdResidente(idResidente) {
     
     var Medicamentos = await db.query(
       `
-      SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", X."stokOcupado", R."idResidente", X.tipo FROM  "Schema-datos"."Medicamentos" M
+      SELECT M.*, R.nombre || ' ' || R.apellidos AS Residente, X."stokOcupado", X."idMedicamentoXResidente", X."stokOcupado", R."idResidente", X.tipo, X."stockConsumido" FROM  "Schema-datos"."Medicamentos" M
       INNER JOIN "Schema-datos"."MedicamentosXResidente" X
       ON X."idMedicamento" = M."idMedicamento"
       INNER JOIN "Schema-datos"."Residentes" R
@@ -219,8 +260,6 @@ async function obtenerMedicamento(idMedicamento) {
 
 async function agregarMedicamento(Medicamentos) {
   var resultado = new Respuesta ();
-  
-
   try {
     var InsertMedicamento=
     `
@@ -230,7 +269,8 @@ async function agregarMedicamento(Medicamentos) {
         "descripcion",
         "stockDisponible",
         miligramos,
-        "fechaVencimiento"
+        "fechaVencimiento",
+        "clasificacion"
         
         )
       VALUES (
@@ -238,7 +278,8 @@ async function agregarMedicamento(Medicamentos) {
         '${Medicamentos.descripcion}',
         ${Medicamentos.stockDisponible},
         '${Medicamentos.miligramos}',
-        '${Medicamentos.fechaVencimiento}');  
+        '${Medicamentos.fechaVencimiento}',
+        '${Medicamentos.clasificacion}');  
     `
     await db.query(InsertMedicamento);
     
@@ -269,7 +310,8 @@ function actualizarMedicamento(Medicamentos) {
       "descripcion"='${Medicamentos.descripcion}', 
       "stockDisponible"='${Medicamentos.stockDisponible}',
       "miligramos"='${Medicamentos.miligramos}',
-      "fechaVencimiento"='${Medicamentos.fechaVencimiento}'
+      "fechaVencimiento"='${Medicamentos.fechaVencimiento}',
+      "clasificacion"='${Medicamentos.clasificacion}'
       
     WHERE 
       "idMedicamento"=${Medicamentos.idMedicamento};
@@ -297,12 +339,110 @@ function eliminarMedicamento(idMedicamento) {
       WHERE "idMedicamento"=${idMedicamento};
     `)
 
+    resultado.HayError = false;
+    resultado.Mensaje="Medicamento eliminado exitosamente"    
+
+  } catch (error) {
+    resultado.HayError=true
+    resultado.mensaje=error.message
+  }
+
+  return resultado
+}
+
+async function obtenerDosisDiaria(dosisDiaria) {
+  var resultado = new Respuesta ();
+  var idFiltro="";
+
+  if(dosisDiaria.idTipo=="IMR"){
+    idFiltro="idMedicamentoXResidente"
+
+  }else{
+    idFiltro="idDosisDiaria"
+
+  }
+  try {     
+    var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = '${dosisDiaria.id}'`)
+    resultado.ObjetoRespuesta =Medicamentos;
+    resultado.HayError = false;
+
+  } catch (error) {
+    resultado.HayError=true
+    resultado.mensaje=error.message
+  }
+  return resultado
+  
+}
+
+
+async function agregarDosisDiaria(dosisDiaria) {
+  var resultado = new Respuesta ();
+
+  try {
+    var InsertMedicamento=
+    `
+      INSERT INTO "Schema-datos"."DosisDiaria"(
+        "fecha",
+        "aplicador",
+        "idMedicamentoXResidente",
+        "cantidad"        
+        )
+      VALUES (
+        '${dosisDiaria.fecha}',
+        '${dosisDiaria.aplicador}',
+        ${dosisDiaria.idMedicamentoXRecidente},
+        ${dosisDiaria.cantidad});  
+    `
+    await db.query(InsertMedicamento);
+
+    resultado.HayError = false;
+    resultado.Mensaje="Medicamento agregado exitosamente"    
+
+  } catch (error) {
+    resultado.HayError=true
+    resultado.mensaje=error.message
+  }
+
+  
+  return resultado
+}
+
+function actualizarDosisDiaria(dosisDiaria) {
+  var resultado = new Respuesta ();
+
+  try {   
+
     db.query(`
-      DELETE FROM "Schema-datos"."Medicamentos"
-      WHERE "idMedicamento"=${idMedicamento};
+    UPDATE "Schema-datos"."DosisDiaria"
+    SET   
+      "fecha"='${dosisDiaria.fecha}', 
+      "aplicador"='${dosisDiaria.aplicador}', 
+      "cantidad"=${dosisDiaria.cantidad}
+    WHERE 
+      "idDosisDiaria"=${dosisDiaria.idDosisDiaria};
+  `)
 
+    resultado.HayError = false;
+    resultado.Mensaje="Medicamento actualizado exitosamente"    
+
+  } catch (error) {
+    resultado.HayError=true
+    resultado.mensaje=error.message
+  }
+
+  return resultado
+}
+
+
+function eliminarDosisDiaria(idDosisDiaria) {
+  var resultado = new Respuesta ();
+
+  try {   
+
+    db.query(`
+      DELETE FROM "Schema-datos"."DosisDiaria"
+      WHERE "idDosisDiaria"=${idDosisDiaria};
     `)
-
 
     resultado.HayError = false;
     resultado.Mensaje="Medicamento eliminado exitosamente"    
@@ -315,9 +455,11 @@ function eliminarMedicamento(idMedicamento) {
   return resultado
 }
 
+
 module.exports = {
   obtenerMedicamentosXResidente,
   obtenerMedicamentosXIdResidente,
+  obtenerMedicamentosXResidenteXId,
   agregarMedicamentosXResidente,
   actualizarMedicamentosXResidente,
   agregarMedicamentosXResidente,
@@ -326,7 +468,12 @@ module.exports = {
   agregarMedicamento,
   actualizarMedicamento,
   eliminarMedicamento,
-  obtenerMedicamentos
+  obtenerMedicamentos,
+  obtenerDosisDiaria,
+  agregarDosisDiaria,
+  actualizarDosisDiaria,
+  eliminarDosisDiaria,
+  actualizarStockConsumido
 };
 
  

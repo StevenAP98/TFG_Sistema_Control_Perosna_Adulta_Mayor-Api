@@ -120,6 +120,55 @@ async function eliminarMedicamento(req, res) {
   }
 }
 
+async function obtenerDosisDiaria(req, res) {
+  var dosisDiaria = req.body
+
+  try {
+    const usuario = await MedicamentoBL.obtenerDosisDiaria(dosisDiaria);
+    res.json(usuario);
+  } catch (error) {
+
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+async function agregarDosisDiaria(req, res) {
+  try {   
+
+    var dosisDiaria = req.body
+    respuesta = await MedicamentoBL.agregarDosisDiaria(dosisDiaria);
+
+    res.json(respuesta);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function actualizarDosisDiaria(req, res) {
+
+  try {
+
+      var dosisDiaria = req.body
+      respuesta = await MedicamentoBL.actualizarDosisDiaria(dosisDiaria);
+
+      res.json(respuesta);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function eliminarDosisDiaria(req, res) {
+  const { idDosisDiaria } = req.params; // Obtén el parámetro 'id' de la URL
+
+  try {
+    const usuario = await MedicamentoBL.eliminarDosisDiaria(idDosisDiaria);
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   obtenerMedicamentosXIdResidente,
   obtenerMedicamentosXResidente,
@@ -130,5 +179,9 @@ module.exports = {
   agregarMedicamento,
   actualizarMedicamento,
   eliminarMedicamento,
-  obtenerMedicamentos
+  obtenerMedicamentos,
+  obtenerDosisDiaria,
+  agregarDosisDiaria,
+  actualizarDosisDiaria,
+  eliminarDosisDiaria
 };

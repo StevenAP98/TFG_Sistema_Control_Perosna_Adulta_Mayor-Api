@@ -51,11 +51,20 @@ async function eliminarMedicamento(idMedicamento){
   if(medicamentosXResidente.ObjetoRespuesta!= undefined && medicamentosXResidente.ObjetoRespuesta.length>0){
 
     for(medicamentoXResidente of medicamentosXResidente.ObjetoRespuesta){
+      //Se eliminan los medicamentos por residente
       await  MedicamentoDal.eliminarMedicamentosXResidente(medicamentoXResidente.idMedicamentoXResidente)
-  
-     }
-  }
 
+      //Se eliminan las dosis diaria
+      var dosisDiarias= await MedicamentoDal.obtenerDosisDiaria({idTipo:"IMR", id:medicamentoXResidente.idMedicamentoXResidente})
+      if(dosisDiarias.ObjetoRespuesta!= undefined && dosisDiarias.ObjetoRespuesta.length>0){
+
+        for(dosisDiarias of dosisDiarias.ObjetoRespuesta){
+          await  MedicamentoDal.eliminarDosisDiaria(dosisDiarias.idDosisDiaria)
+        }
+      }
+    }
+  }
+  
   return MedicamentoDal.eliminarMedicamento(idMedicamento)
 }
 

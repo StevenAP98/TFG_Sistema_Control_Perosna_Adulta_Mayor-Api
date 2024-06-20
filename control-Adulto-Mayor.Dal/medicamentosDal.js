@@ -362,7 +362,7 @@ async function obtenerDosisDiaria(dosisDiaria) {
 
   }
   try {     
-    var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = '${dosisDiaria.id}'`)
+    var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = ${dosisDiaria.id}`)
     resultado.ObjetoRespuesta =Medicamentos;
     resultado.HayError = false;
 

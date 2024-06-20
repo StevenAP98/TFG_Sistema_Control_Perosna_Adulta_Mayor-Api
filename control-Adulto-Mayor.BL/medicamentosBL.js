@@ -51,7 +51,6 @@ async function eliminarMedicamento(idMedicamento){
   if(medicamentosXResidente.ObjetoRespuesta!= undefined && medicamentosXResidente.ObjetoRespuesta.length>0){
 
     for(medicamentoXResidente of medicamentosXResidente.ObjetoRespuesta){
-      console.log(medicamentoXResidente)
       await  MedicamentoDal.eliminarMedicamentosXResidente(medicamentoXResidente.idMedicamentoXResidente)
   
      }

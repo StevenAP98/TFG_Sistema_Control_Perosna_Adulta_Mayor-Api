@@ -194,11 +194,20 @@ function actualizarStockConsumido(stockConsumido, idMedicamentoXResidente, stock
   return resultado
 }
 
-function eliminarMedicamentosXResidente(idMedicamentoXResidente) {
+async function eliminarMedicamentosXResidente(idMedicamentoXResidente) {
   var resultado = new Respuesta ();
 
+  console.log(
+`
+      DELETE FROM "Schema-datos"."MedicamentosXResidente"
+      WHERE "idMedicamentoXResidente"=${idMedicamentoXResidente};
+
+  `
+
+  )
+
   try {   
-    db.query(`
+    await db.query(`
       DELETE FROM "Schema-datos"."MedicamentosXResidente"
       WHERE "idMedicamentoXResidente"=${idMedicamentoXResidente};
 
@@ -332,10 +341,17 @@ function actualizarMedicamento(Medicamentos) {
 function eliminarMedicamento(idMedicamento) {
   var resultado = new Respuesta ();
 
+  console.log(
+    `
+      DELETE FROM "Schema-datos"."Medicamentos"
+      WHERE "idMedicamento"=${idMedicamento};
+    `
+  )
+
   try {   
 
     db.query(`
-      DELETE FROM "Schema-datos"."MedicamentosXResidente"
+      DELETE FROM "Schema-datos"."Medicamentos"
       WHERE "idMedicamento"=${idMedicamento};
     `)
 

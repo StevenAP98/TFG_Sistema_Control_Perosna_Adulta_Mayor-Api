@@ -45,7 +45,18 @@ async function actualizarMedicamento(usuario){
   return MedicamentoDal.actualizarMedicamento(usuario)
 }
 
-function eliminarMedicamento(idMedicamento){
+async function eliminarMedicamento(idMedicamento){
+  var medicamentosXResidente = await  MedicamentoDal.obtenerMedicamentosXResidente(idMedicamento);
+
+  if(medicamentosXResidente.ObjetoRespuesta!= undefined && medicamentosXResidente.ObjetoRespuesta.length>0){
+
+    for(medicamentoXResidente of medicamentosXResidente.ObjetoRespuesta){
+      console.log(medicamentoXResidente)
+      await  MedicamentoDal.eliminarMedicamentosXResidente(medicamentoXResidente.idMedicamentoXResidente)
+  
+     }
+  }
+
   return MedicamentoDal.eliminarMedicamento(idMedicamento)
 }
 

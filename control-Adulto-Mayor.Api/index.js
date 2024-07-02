@@ -1,9 +1,10 @@
+require(`dotenv`);
 const express = require('express');
 const app = express();
+var cors = require('cors');
 const apiRoutes = require('./apiRoutes.js');
 
-var cors = require('cors');
-require(`dotenv`);
+const middleware = require("./utils/middleware.js").decryptReq;
 
 const frontURL = process.env.API_URL;
 
@@ -26,23 +27,12 @@ app.use((req, res, next) => {
   const origin = referer ? referer.split('/').slice(0, 3).join('/') : '';
   
   if (allowedOrigins.includes(origin)) {
+    req = middleware(req);
     next();
   } else {
     res.status(403).send('Forbidden');
   }
 });
-
-
-// app.use(function(req, res, next){
-//   const apiKey=req.get("x-api-key");
-
-//   if(apiKey=="1234"){
-//     next()
-
-//   }else{
-//     res.status(401).send("unauthorized")
-//   }
-// })
 
 app.use('/api', apiRoutes);
 

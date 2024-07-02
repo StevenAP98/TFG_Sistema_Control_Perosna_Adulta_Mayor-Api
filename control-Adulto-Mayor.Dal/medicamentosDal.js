@@ -194,11 +194,11 @@ function actualizarStockConsumido(stockConsumido, idMedicamentoXResidente, stock
   return resultado
 }
 
-function eliminarMedicamentosXResidente(idMedicamentoXResidente) {
+async function eliminarMedicamentosXResidente(idMedicamentoXResidente) {
   var resultado = new Respuesta ();
 
   try {   
-    db.query(`
+    await db.query(`
       DELETE FROM "Schema-datos"."MedicamentosXResidente"
       WHERE "idMedicamentoXResidente"=${idMedicamentoXResidente};
 
@@ -335,7 +335,7 @@ function eliminarMedicamento(idMedicamento) {
   try {   
 
     db.query(`
-      DELETE FROM "Schema-datos"."MedicamentosXResidente"
+      DELETE FROM "Schema-datos"."Medicamentos"
       WHERE "idMedicamento"=${idMedicamento};
     `)
 
@@ -362,7 +362,7 @@ async function obtenerDosisDiaria(dosisDiaria) {
 
   }
   try {     
-    var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = '${dosisDiaria.id}'`)
+    var Medicamentos = await db.query(`SELECT * FROM "Schema-datos"."DosisDiaria" WHERE "${idFiltro}" = ${dosisDiaria.id}`)
     resultado.ObjetoRespuesta =Medicamentos;
     resultado.HayError = false;
 

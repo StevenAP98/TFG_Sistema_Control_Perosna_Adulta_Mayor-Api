@@ -61,8 +61,8 @@ function agregarUsuario(usuario) {
 
     db.query(`
       INSERT INTO "Schema-datos"."Usuarios"(
-      nombre, apellidos, edad, "nombreUsuario", contrasena, telefono, "idRol")
-      VALUES ('${usuario.nombre}', '${usuario.apellidos}', ${usuario.edad}, '${usuario.nombreUsuario}', '${usuario.contrasena}', '${usuario.telefono}', ${usuario.rol});  
+      nombre, apellidos, edad, "nombreUsuario", contrasena, telefono, "idRol", "correoElectronico")
+      VALUES ('${usuario.nombre}', '${usuario.apellidos}', ${usuario.edad}, '${usuario.nombreUsuario}', '${usuario.contrasena}', '${usuario.telefono}', ${usuario.rol}, '${usuario.correoElectronico}');  
     `)
     
     resultado.HayError = false;
@@ -91,7 +91,8 @@ function actualizarUsuario(usuario) {
       "nombreUsuario"='${usuario.nombreUsuario}',
       contrasena='${usuario.contrasena}',
       telefono='${usuario.telefono}',
-      "idRol"=${usuario.rol}
+      "idRol"=${usuario.rol},
+      "correoElectronico"='${usuario.correoElectronico}'
     WHERE 
       "idUsuario"=${usuario.idUsuario};
   `)

@@ -32,12 +32,12 @@ async function obtenerCirugiasXIdResidente(idResidente) {
   return resultado
   
 }
-async function obtenerDatosRecordatorio(idCita) {
+async function obtenerDatosRecordatorio() {
   var resultado = new Respuesta ();
 
   try {   
     
-    var citas = await db.query(`
+    var cirugia = await db.query(`
       select CI."fechaCirugia", CI."nombreCirugia", (R.nombre || ' ' || R.apellidos) as nombreResidente, (U.nombre || ' ' || U.apellidos) AS nombreEncargado, U."correoElectronico", CI.estado
       from "Schema-datos"."Cirugias" CI
       inner join "Schema-datos"."Residentes" R
@@ -51,7 +51,7 @@ async function obtenerDatosRecordatorio(idCita) {
     console.log(error)
 
   }
-  return citas
+  return cirugia
   
 }
 
@@ -132,6 +132,11 @@ function agregarCirugia(cirugias) {
 
 function actualizarCirugia(cirugias) {
   var resultado = new Respuesta ();
+  var queryNombreAdjuntos=``;
+
+  if(cirugias.nombreAdjuntos!=undefined){
+    queryNombreAdjuntos=`"nombreAdjuntos"='${cirugias.nombreAdjuntos}',`
+  }
 
   try {   
 
@@ -144,8 +149,8 @@ function actualizarCirugia(cirugias) {
       "tipoCirugia"='${cirugias.tipoCirugia}', 
       "fechaCirugia"='${cirugias.fechaCirugia}', 
       "estado"='${cirugias.estado}', 
-      "rutaAdjuntos"='${cirugias.rutaAdjuntos}',
-      "nombreAdjuntos"='${cirugias.nombreAdjuntos}'
+      ${queryNombreAdjuntos}
+      "rutaAdjuntos"='${cirugias.rutaAdjuntos}'
       
     WHERE 
       "idCirugia"=${cirugias.idCirugia};

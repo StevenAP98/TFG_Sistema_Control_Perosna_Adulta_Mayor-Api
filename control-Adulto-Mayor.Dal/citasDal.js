@@ -147,7 +147,12 @@ async function agregarCita(citas) {
 
 function actualizarCita(citas) {
   var resultado = new Respuesta ();
+  var queryNombreAdjuntos=``;
 
+  if(citas.nombreAdjuntos!=undefined){
+    queryNombreAdjuntos=`"nombreAdjuntos"='${citas.nombreAdjuntos}',`
+  }
+  
   try {   
 
     db.query(`
@@ -161,8 +166,9 @@ function actualizarCita(citas) {
       "rutaAdjunto"='${citas.rutaAdjunto}', 
       "doctorAsignado"='${citas.doctorAsignado}', 
       "centroMedico"='${citas.centroMedico}', 
-      "notasConsultaMedica"='${citas.notasConsultaMedica}',
-      "nombreAdjuntos"='${citas.nombreAdjuntos}'
+      ${queryNombreAdjuntos}
+      "notasConsultaMedica"='${citas.notasConsultaMedica}'
+      
       
     WHERE 
       "idCita"=${citas.idCita};

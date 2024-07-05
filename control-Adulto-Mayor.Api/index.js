@@ -4,12 +4,14 @@ const app = express();
 var cors = require('cors');
 const apiRoutes = require('./apiRoutes.js');
 
+const bodyParser = require('body-parser');
 const middleware = require("./utils/middleware.js").decryptReq;
 
 const frontURL = process.env.API_URL;
 
 const allowedOrigins = ['http://localhost:4000', frontURL];
 
+app.use(bodyParser.json());
 app.use(cors({
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -28,6 +30,8 @@ app.use((req, res, next) => {
   
   if (allowedOrigins.includes(origin)) {
     req = middleware(req);
+    const interceptor = require("./utils/interceptor.js");
+    interceptor.jsonInterceptor(req,res,next);
     next();
   } else {
     res.status(403).send('Forbidden');

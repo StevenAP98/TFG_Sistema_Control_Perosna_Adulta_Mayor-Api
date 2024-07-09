@@ -24,8 +24,10 @@ async function actualizarResidente(usuario){
   return ResidenteDal.actualizarResidente(usuario)
 }
 
-function eliminarResidente(idResidente){
-  return ResidenteDal.eliminarResidente(idResidente)
+async function eliminarResidente(idResidente){
+  await ResidenteDal.eliminarDatosResidentes(idResidente);
+  return await ResidenteDal.eliminarResidente(idResidente);
+
 }
 
 

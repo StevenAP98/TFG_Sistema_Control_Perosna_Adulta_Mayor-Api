@@ -16,7 +16,7 @@ async function obtenerFisioterapiaXIdRecidente(idRecidente) {
     FROM 
       "Schema-datos"."Fisioterapia"
     WHERE
-      "idRecidente" = '${idRecidente}'`)
+      "idResidente" = '${idRecidente}'`)
     resultado.ObjetoRespuesta =vacunas;
     resultado.HayError = false;
 
@@ -39,7 +39,7 @@ async function obtenerFisioterapia(idFisioterapia) {
       TO_CHAR("fecha", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fecha",
       "tratamiento",
       "recomendaciones",
-      "idRecidente"
+      "idResidente"
     FROM 
       "Schema-datos"."Fisioterapia"
     WHERE
@@ -66,7 +66,7 @@ function agregarFisioterapia(vacunas) {
       tratamiento,
       "fecha",
       "recomendaciones",
-      "idRecidente")
+      "idResidente")
     VALUES (
       '${vacunas.tratamiento}',
       '${vacunas.fecha}',

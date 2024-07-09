@@ -119,6 +119,41 @@ function actualizarResidente(residente) {
   return resultado
 }
 
+async function eliminarDatosResidentes(idResidente){  
+
+  try {   
+    tables = [
+      "Padecimientos",
+      "MedicamentosXResidente",
+      "Fisioterapia",
+      "Citas",
+      "Cirugias",
+      "Vacunas",
+      "SignosVitales"
+    ]
+
+    var medicamentoXResidente = await db.query(`SELECT * FROM "Schema-datos"."MedicamentosXResidente" WHERE "idResidente" = '${idResidente}'`)
+
+    if(medicamentoXResidente.length>0){
+      await db.query(`
+        DELETE FROM "Schema-datos"."DosisDiaria"
+        WHERE "idMedicamentoXResidente"=${medicamentoXResidente[0].idMedicamentoXResidente};
+      `)
+  
+    }
+
+    for (tabla of tables){
+      await db.query(`
+        DELETE FROM "Schema-datos"."${tabla}"
+        WHERE "idResidente"=${idResidente};
+    `)
+  
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 function eliminarResidente(idResidente) {
   var resultado = new Respuesta ();
@@ -145,7 +180,8 @@ module.exports = {
   obtenerResidente,
   agregarResidente,
   actualizarResidente,
-  eliminarResidente
+  eliminarResidente,
+  eliminarDatosResidentes
 };
 
  

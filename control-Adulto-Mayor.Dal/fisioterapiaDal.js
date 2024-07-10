@@ -6,18 +6,19 @@ async function obtenerFisioterapiaXIdRecidente(idRecidente) {
 
   try {   
     
-    var vacunas = await db.query(`
+    var fisioterapia = await db.query(`
     SELECT 
       "idFisioterapia",
       TO_CHAR("fecha", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fecha",
       tratamiento,
       recomendaciones,
-      "idFisioterapia"
+      "idFisioterapia",
+      "diagnostico"
     FROM 
       "Schema-datos"."Fisioterapia"
     WHERE
       "idResidente" = '${idRecidente}'`)
-    resultado.ObjetoRespuesta =vacunas;
+    resultado.ObjetoRespuesta =fisioterapia;
     resultado.HayError = false;
 
   } catch (error) {
@@ -33,18 +34,19 @@ async function obtenerFisioterapia(idFisioterapia) {
 
   try {   
     
-    var vacunas = await db.query(`
+    var fisioterapia = await db.query(`
     SELECT 
       "idFisioterapia",
       TO_CHAR("fecha", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fecha",
       "tratamiento",
       "recomendaciones",
-      "idResidente"
+      "idResidente",
+      "diagnostico"
     FROM 
       "Schema-datos"."Fisioterapia"
     WHERE
       "idFisioterapia" = '${idFisioterapia}'`)
-    resultado.ObjetoRespuesta =vacunas;
+    resultado.ObjetoRespuesta =fisioterapia;
     resultado.HayError = false;
 
   } catch (error) {
@@ -55,7 +57,7 @@ async function obtenerFisioterapia(idFisioterapia) {
   
 }
 
-function agregarFisioterapia(vacunas) {
+function agregarFisioterapia(fisioterapia) {
   var resultado = new Respuesta ();
 
   try {
@@ -66,12 +68,14 @@ function agregarFisioterapia(vacunas) {
       tratamiento,
       "fecha",
       "recomendaciones",
-      "idResidente")
+      "idResidente",
+      "diagnostico")
     VALUES (
-      '${vacunas.tratamiento}',
-      '${vacunas.fecha}',
-      '${vacunas.recomendaciones}',
-      ${vacunas.idRecidente});  
+      '${fisioterapia.tratamiento}',
+      '${fisioterapia.fecha}',
+      '${fisioterapia.recomendaciones}',
+      ${fisioterapia.idRecidente},
+      '${fisioterapia.diagnostico}');  
   `)
     
     resultado.HayError = false;
@@ -86,7 +90,7 @@ function agregarFisioterapia(vacunas) {
   return resultado
 }
 
-function actualizarFisioterapia(vacunas) {
+function actualizarFisioterapia(fisioterapia) {
   var resultado = new Respuesta ();
 
   try {   
@@ -94,12 +98,13 @@ function actualizarFisioterapia(vacunas) {
     db.query(`
     UPDATE "Schema-datos"."Fisioterapia"
     SET   
-      tratamiento='${vacunas.tratamiento}', 
-      "fecha"='${vacunas.fecha}',
-      "recomendaciones"='${vacunas.recomendaciones}'
+      tratamiento='${fisioterapia.tratamiento}', 
+      "fecha"='${fisioterapia.fecha}',
+      "recomendaciones"='${fisioterapia.recomendaciones}',
+      "diagnostico"='${fisioterapia.diagnostico}'
       
     WHERE 
-      "idFisioterapia"=${vacunas.idFisioterapia};
+      "idFisioterapia"=${fisioterapia.idFisioterapia};
   `)
 
     resultado.HayError = false;

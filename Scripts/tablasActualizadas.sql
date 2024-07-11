@@ -273,6 +273,7 @@ CREATE TABLE IF NOT EXISTS "Schema-datos"."Fisioterapia"
     tratamiento text COLLATE pg_catalog."default",
     recomendaciones text COLLATE pg_catalog."default",
     "idRecidente" text COLLATE pg_catalog."default",
+    diagnostico text COLLATE pg_catalog."default",
     CONSTRAINT "Fisioterapia_pkey" PRIMARY KEY ("idFisioterapia")
 )
 -- Table: Schema-datos.DosisDiaria

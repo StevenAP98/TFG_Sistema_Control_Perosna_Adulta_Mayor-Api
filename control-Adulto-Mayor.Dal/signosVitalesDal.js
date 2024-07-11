@@ -15,6 +15,9 @@ async function obtenerSignosVitalesXIdResidente(idResidente) {
       temperatura,
       "saturacionOxigeno",
       "idResidente",
+      "glisemia",
+      "peso",
+      "talla",
       TO_CHAR("fecha", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fecha"
     FROM 
       "Schema-datos"."SignosVitales"
@@ -44,6 +47,9 @@ async function obtenerSignosVitales(idSignosVitales) {
       temperatura,
       "saturacionOxigeno",
       "idResidente",
+      "glisemia",
+      "peso",
+      "talla",
       TO_CHAR("fecha", 'YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS "fecha"
     FROM 
       "Schema-datos"."SignosVitales"
@@ -73,7 +79,10 @@ function agregarSignosVitales(signosVitales) {
       "frecuenciaCardiaca",
       "temperatura",
       "saturacionOxigeno",
-      "idResidente"
+      "idResidente",
+      "glisemia",
+      "peso",
+      "talla"
       )
     VALUES (
       '${signosVitales.fecha}',
@@ -81,7 +90,10 @@ function agregarSignosVitales(signosVitales) {
       '${signosVitales.frecuenciaCardiaca}',
       '${signosVitales.temperatura}',
       '${signosVitales.saturacionOxigeno}',
-      '${signosVitales.idResidente}');  
+      '${signosVitales.idResidente}',
+      '${signosVitales.glisemia}',
+      '${signosVitales.peso}',
+      '${signosVitales.talla}');  
   `)
     
     resultado.HayError = false;
@@ -108,7 +120,10 @@ function actualizarSignosVitales(signosVitales) {
       "presionArterial"='${signosVitales.presionArterial}', 
       "frecuenciaCardiaca"='${signosVitales.frecuenciaCardiaca}', 
       "temperatura"='${signosVitales.temperatura}', 
-      "saturacionOxigeno"='${signosVitales.saturacionOxigeno}'
+      "saturacionOxigeno"='${signosVitales.saturacionOxigeno}',
+      "glisemia"='${signosVitales.glisemia}',
+      "peso"='${signosVitales.peso}',
+      "talla"='${signosVitales.talla}'
       
     WHERE 
       "idSignosVitales"=${signosVitales.idSignosVitales};
